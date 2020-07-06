@@ -1,10 +1,8 @@
 # -*- coding: utf-8 -*-
+
 from bs4 import BeautifulSoup
 import codecs
-import datetime
-import json
 import requests
-import typing
 
 class Scraper:
     """[summary]
