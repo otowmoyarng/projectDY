@@ -1,18 +1,18 @@
-import React from 'react';
+import { BrowserRouter, Route, Switch } from 'react-router-dom';
+import App from './App';
+import TestMenu from './TestMenu';
 
-function Menu() {
+export default function Menu() {
     return (
-        <div>
-            <ul>
-                <li>
-                    <a href="#">時刻表</a>
-                </li>
-                <li>
-                    <a href="#">運行予定</a>
-                </li>
-            </ul>
-        </div>
+        <BrowserRouter>
+            <Switch>
+                {/* TOPメニュー */}
+                <Route path="/" exact component={TestMenu} />
+                {/* 検証用メニュー */}
+                <Route path="/test" exact component={TestMenu} />
+                {/* 動作確認用 */}
+                <Route path="/app" exact component={App} />
+            </Switch>
+        </BrowserRouter>
     );
 }
-
-export default Menu;
