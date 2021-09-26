@@ -5,6 +5,7 @@ export default function TestMenu() {
         <div>
             <p>検証用メニュー</p>
             <ul>
+                {/* 動作確認用 */}
                 <li>
                     <Link to="App">App.tsxへ</Link>
                 </li>

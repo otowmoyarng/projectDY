@@ -2,7 +2,7 @@ import { BrowserRouter, Route, Switch } from 'react-router-dom';
 import App from './App';
 import TestMenu from './TestMenu';
 
-export default function Menu() {
+export default function Router() {
     return (
         <BrowserRouter>
             <Switch>
