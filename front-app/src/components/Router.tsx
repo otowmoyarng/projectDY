@@ -1,6 +1,5 @@
 import { BrowserRouter, Route, Switch } from 'react-router-dom';
-import App from './pages/App';
-import TestMenu from './pages/TestMenu';
+import { App, TestMenu } from './index'
 
 export default function Router() {
     return (
