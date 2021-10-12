@@ -44,3 +44,22 @@ You don’t have to ever use `eject`. The curated feature set is suitable for sm
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+### installed packages
+
+installed package list
+
+* react
+* react-dom
+* react-big-calendar
+* react-bootstrap
+* axios
+* bootstrap
+* moment
+* typescript
+
+```npm command
+npm install --save-dev typescript
+npm install --save react react-dom moment react-bootstrap bootstrap axios
+npm install --save-dev @types/react @types/react-dom @types/moment @types/react-big-calendar
+```
