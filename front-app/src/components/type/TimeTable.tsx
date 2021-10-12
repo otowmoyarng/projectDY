@@ -1,3 +1,7 @@
+/**
+ * TimeTable
+ * SSSApiAccessor.GetUpTimeTable()の実行結果を格納する型インターフェース
+ */
 export default interface TimeTable {
     Station: string;
     ArrivalTime_Nozomi: string;
