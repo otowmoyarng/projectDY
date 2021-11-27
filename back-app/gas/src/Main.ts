@@ -4,9 +4,6 @@ import { GASProperties } from './GASProperties'
 
 export namespace UseCase {
     export function Main() {
-        console.time("main");
-        console.info("run main");
-
         // スプレッドシートを取得する
         const spreadSheetID: string | null = GASProperties.getProperty(GASProperties.Key.SpreadSheetID);
         const sheetName: string | null = GASProperties.getProperty(GASProperties.Key.SheetName);
@@ -40,8 +37,5 @@ export namespace UseCase {
             LineNotify.SendLineNotify(content);
             break;
         }
-
-        console.info("run finish");
-        console.timeEnd("main");
     }
 }

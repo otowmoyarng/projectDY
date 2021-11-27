@@ -1,12 +1,9 @@
 import { UseCase } from '../src/Main'
 
-/**
- * E2E用テスト関数
- */
-function TestMain() {
-    console.time("test");
+function run() {
+    console.time("main");
     console.info("run start");
     UseCase.Main();
     console.info("run finish");
-    console.timeEnd("test");
+    console.timeEnd("main");
 }
