@@ -1,4 +1,4 @@
-import { IsToday } from '../src/IsToday'
+import { Commons } from '../src/IsToday'
 
 function TestIsToday() {
     var dateArray = [
@@ -18,17 +18,17 @@ function TestIsToday() {
 
     var date = '';
     console.log("date is empty");
-    console.log("IsToday is", IsToday(date));
+    console.log("IsToday is", Commons.IsToday(date));
 
     date = '2021/09/17';
     console.log("date is yesterday");
-    console.log("IsToday is", IsToday(date));
+    console.log("IsToday is", Commons.IsToday(date));
 
     date = '2021/09/18';
     console.log("date is today");
-    console.log("IsToday is", IsToday(date));
+    console.log("IsToday is", Commons.IsToday(date));
 
     date = '2021/09/19';
     console.log("date is tomorrow");
-    console.log("IsToday is", IsToday(date));
+    console.log("IsToday is", Commons.IsToday(date));
 }

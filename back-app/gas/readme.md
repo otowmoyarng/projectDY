@@ -2,7 +2,7 @@
 
 実行するコマンド
 
-```
+```bash
 npm init -y
 npm install @google/clasp
 npm install @types/google-apps-script
@@ -13,7 +13,7 @@ npx tsc --init
 Googleアカウントで認証する
 claspコマンドが認識されていない時は`Node.js command prompt`から実行する
 
-```
+```bash
 clasp login --no-localhost
 ```
 
@@ -27,6 +27,14 @@ clasp login --no-localhost
 隠蔽したい設定値はGASのプロジェクトプロパティから読み書き可能
 GASのプロジェクトプロパティは以前のエディタに戻すとファイルメニューにて表示される。
 `PropertiesService`クラスからプロパティ値にアクセスできる。
+
+```bash
+10:37:16	エラー	
+ReferenceError: SendLineNotify_1 is not defined
+TestSendLineNotify	@ test/SendLineNotify.gs:10
+```
+
+１つのファイルから２つ名前付きエクスポートしてコーディングすると、gasにエンコードしたコードで参照できずにエラーが発生する
 
 # 引用
 
