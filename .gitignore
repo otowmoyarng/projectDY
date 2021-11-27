@@ -1,3 +1,2 @@
-/.vscode/*
-/venv_DY/*
-/__pycache__/*
+.vscode/*
+/back-app/deploytest/*
