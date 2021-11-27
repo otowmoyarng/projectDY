@@ -1,0 +1,56 @@
+// スプレッドシートIDをここに入力
+const SpreadSheetID = "1Jv5zQnojuDagAnmGIk-1X609wSaiVbuejrw6bRWGSGU";
+// シート名をここに入力
+const SheetName = "運行予定日";
+
+/* -- 共通関数 ------------------------------------------------------------------------------------------------- */
+
+function IsToday(operate_Date) {
+
+  var date = new Date(operate_Date);
+  //console.log("date:", [date.getFullYear(), date.getMonth() + 1, date.getDate(), date.toDateString(), date]);
+
+  // operate_Dateが日付書式でない場合
+  if (date.toDateString() === 'Invalid Date')
+    return false;
+
+  var today = new Date();
+  //console.log("now:", [today.getFullYear(), today.getMonth() + 1, today.getDate(), today.toDateString(), today]);
+
+  return date.toDateString() === today.toDateString();
+}
+
+/* -- 外部実行関数 ------------------------------------------------------------------------------------------------- */
+
+function main() {
+  console.time("main");
+  console.info("run main");
+
+  // スプレッドシートを取得する
+  var spreadsheet = SpreadsheetApp.openById(SpreadSheetID);
+  var sheet = spreadsheet.getSheetByName(SheetName);
+
+  // 日付と担当者の一覧表を二次元配列で取得する
+  var table = sheet.getRange(2,1,sheet.getLastRow(),3).getValues();
+
+  for (var index = 0; index < table.length; index++) {
+
+    //console.log("index:", table[index]);
+    var operate_Date = table[index][0];
+
+    if (!IsToday(operate_Date)) {
+      continue;
+    }
+
+    var operate_Train = table[index][1];
+    var operate_Destination = table[index][2];
+
+    var content = `今日は${operate_Train}${operate_Destination}の検測予定日です。`;
+    //console.log(content);
+    sendLineNotify(content);
+    break;
+  }
+
+  console.info("run finish");
+  console.timeEnd("main");
+}

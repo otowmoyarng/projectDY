@@ -1,0 +1,36 @@
+function main_IsToday() {
+  var datearray = [
+    '2021/09/19',
+    '',
+    '2021/09/32',
+    '2021/00/21',
+    '0000/09/21',
+    '20210919',
+    '2021/0919',
+    '202109/19',
+  ];
+  datearray.forEach((datestr) => {
+    var date = new Date(datestr);
+    console.log("datestr:" + datestr + ", date:" + date.toDateString());
+  });
+
+  var date = '';
+  console.log("date is empty");
+  console.log("IsToday is", IsToday(date));
+
+  date = '2021/09/17';
+  console.log("date is yesterday");
+  console.log("IsToday is", IsToday(date));
+
+  date = '2021/09/18';
+  console.log("date is today");
+  console.log("IsToday is", IsToday(date));
+
+  date = '2021/09/19';
+  console.log("date is tomorrow");
+  console.log("IsToday is", IsToday(date));
+}
+
+function maintest() {
+  sendLineNotify("run maintest");
+}
