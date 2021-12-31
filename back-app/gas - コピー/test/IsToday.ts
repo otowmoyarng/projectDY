@@ -1,17 +1,5 @@
-/**
- * E2E用テスト関数
- */
-function TestMain() {
-    console.time("test");
-    console.info("run start");
-    Main();
-    console.info("run finish");
-    console.timeEnd("test");
-}
+import { Commons } from '../src/IsToday'
 
-/**
- * IsTodayテスト関数
- */
 function TestIsToday() {
     var dateArray = [
         '2021/09/19',
@@ -30,20 +18,17 @@ function TestIsToday() {
 
     var date = '';
     console.log("date is empty");
-    console.log("IsToday is", IsToday(date));
+    console.log("IsToday is", Commons.IsToday(date));
 
-    var day = 17;
-    date = '2021/09/' + day;
+    date = '2021/09/17';
     console.log("date is yesterday");
-    console.log("IsToday is", IsToday(date));
+    console.log("IsToday is", Commons.IsToday(date));
 
-    day++;
-    date = '2021/09/' + day;
+    date = '2021/09/18';
     console.log("date is today");
-    console.log("IsToday is", IsToday(date));
+    console.log("IsToday is", Commons.IsToday(date));
 
-    day++;
-    date = '2021/09/' + day;
+    date = '2021/09/19';
     console.log("date is tomorrow");
-    console.log("IsToday is", IsToday(date));
+    console.log("IsToday is", Commons.IsToday(date));
 }
