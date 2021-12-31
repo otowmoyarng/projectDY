@@ -5,7 +5,7 @@ class LineBot {
     /**
      * LineBotへテキストメッセージを送信する
      */
-    static PushMessage(message) {
+    static SendBroadcast(message) {
         const payload = {
             messages: [
                 { type: 'text', text: message }
