@@ -3,6 +3,8 @@
  */
 const GASPropertiesKey = {
     ChannelAccessToken: 'CHANNEL_ACCESS_TOKEN',
+    SpreadSheetID: 'SPREAD_SHEET_ID',
+    SheetName: 'SHEET_NAME',
 };
 
 class GASProperties {
