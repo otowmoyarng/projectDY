@@ -12,7 +12,7 @@ class GASProperties {
      * @param key プロパティキー
      * @returns プロパティ値
      */
-    static getProperty(key) {
+    static GetProperty(key) {
         if (key === undefined || key === null || key === "") {
             console.error('keyが指定されていません。');
             return undefined;
