@@ -22,7 +22,8 @@ function routing(event) {
     // いつはしる？→運行予定カレンダー（当月）を表示する
     let messages = [`userid:${event.source.userId}`, `text:${event.message.text}`];
     if (event.message.text === Operation.When) {
-        messages.push('カレンダーを表示します。');
+        //messages.push('カレンダーを表示します。');
+        return calender.ThisMonth(event.replyToken);
     } else if (event.message.text === Operation.Where) {
         messages.push('時刻表を表示します。');
     } else {
