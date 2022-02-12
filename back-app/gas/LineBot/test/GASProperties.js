@@ -1,12 +1,11 @@
 /**
  * GASProperties用テスト関数
  */
-function TestGASProperties() {
+function GetPropertyTest() {
 
     const properties = [
         GASPropertiesKey.ChannelAccessToken,
-        GASPropertiesKey.SpreadSheetID,
-        GASPropertiesKey.SheetName,
+        GASPropertiesKey.UserId,
     ];
     properties.forEach(
         key => { console.log(`key:${key}`, `value:${GASProperties.GetProperty(key)}`); }
