@@ -13,7 +13,7 @@ class Calender {
             footer: {
                 type: "box",
                 layout: "vertical",
-                contents: this.createFooter((dateMonth ? dateMonth : GetCurrentYm()))
+                contents: this.createFooter((dateMonth ? dateMonth : DateUtil.GetCurrentYm()))
             },
             styles: {
                 footer: {
