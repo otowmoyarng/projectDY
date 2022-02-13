@@ -9,12 +9,14 @@ const Sheet = {
 class SheetAccessor {
 
     GetCalenders() {
-        return Sheet.Calender.getDataRange().getValues();
+        const calenderAll = Sheet.Calender.getDataRange().getValues();
+        calenderAll.shift();
+        return calenderAll;
     }
 
-    GetCalender(targetym) {
+    GetCalender(dateMonth) {
         const calenderAll = this.GetCalenders();
-        let calenderList = calenderAll.filter(row => row[row.length - 1] === targetym);
+        let calenderList = calenderAll.filter(row => row[row.length - 1] === dateMonth);
         return calenderList;
     }
 
