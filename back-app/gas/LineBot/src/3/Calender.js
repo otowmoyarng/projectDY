@@ -1,37 +1,19 @@
 class Calender {
 
     /**
-     * 今月の運行予定カレンダーを表示する
-     * @param replyToken リプライトークン
-     */
-    ThisMonth(replyToken) {
+      * 運行予定カレンダーを表示する
+      * 
+      * @param replyToken リプライトークン
+      * @param dateMonth 対象年月yyyy/MM
+      */
+    Show(replyToken, dateMonth = undefined) {
+
         let calender = {
             type: "bubble",
             footer: {
                 type: "box",
                 layout: "vertical",
-                contents: [
-                    {
-                        type: "text",
-                        text: "　",
-                        contents: [
-                            {
-                                type: "span",
-                                text: "2/14：のぞみ下り"
-                            }
-                        ]
-                    },
-                    {
-                        type: "text",
-                        text: "　",
-                        contents: [
-                            {
-                                type: "span",
-                                text: "2/15：のぞみ上り"
-                            }
-                        ]
-                    }
-                ]
+                contents: this.createFooter((dateMonth ? dateMonth : GetCurrentYm()))
             },
             styles: {
                 footer: {
@@ -41,15 +23,65 @@ class Calender {
         }
 
         return LineApiDriver.ReplyFlexMessage(replyToken, calender);
+
     }
 
-    /**
-     * 指定されたの運行予定カレンダーを表示する
-     * @param replyToken リプライトークン
-     * @param targetym 対象年月yyyy/MM
-     */
-    TargetMonth(replyToken, targetym) {
+    createCalenderHead(dateMonth) {
 
+        let calenderHead = [{
+            type: "button",
+            action: {
+                type: "message",
+                label: "←",
+                text: "2022/01"
+            },
+            position: "relative"
+        },
+        {
+            type: "filler"
+        },
+        {
+            type: "text",
+            text: "Now",
+            align: "center",
+            gravity: "center",
+            wrap: true
+        },
+        {
+            type: "filler"
+        },
+        {
+            type: "button",
+            action: {
+                type: "message",
+                label: "→",
+                text: "2022/03"
+            }
+        }];
+
+        return calenderHead;
+    }
+
+    createFooter(dateMonth) {
+        const result = sheetAccessor.GetCalender(dateMonth);
+        const footers = result.map(row => {
+            let text = `${row.Date}：${row.Train}${row.Destination}`;
+            if (!IsNullOrEmpty(row.Remarks)) {
+                text += `（${row.Remarks}）`
+            }
+            return {
+                type: "text",
+                text: "　",
+                contents: [
+                    {
+                        type: "span",
+                        text: text
+                    }
+                ]
+            };
+        });
+
+        return footers;
     }
 
     calenders(dateMonth = undefined) {

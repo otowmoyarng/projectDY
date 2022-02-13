@@ -23,7 +23,7 @@ function routing(event) {
     let messages = [`userid:${event.source.userId}`, `text:${event.message.text}`];
     if (event.message.text === Operation.When) {
         //messages.push('カレンダーを表示します。');
-        return calender.ThisMonth(event.replyToken);
+        return calender.Show(event.replyToken);
     } else if (event.message.text === Operation.Where) {
         messages.push('時刻表を表示します。');
     } else {
