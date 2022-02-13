@@ -1,4 +1,5 @@
 const Operation = {
+    TimeTable: 'じこくひょう',
     When: 'いつはしる？',
     Where: 'いまどこ？',
 };
