@@ -3,7 +3,8 @@ const SpreadSheet = SpreadsheetApp.getActiveSpreadsheet();
 const Sheet = {
     Calender: SpreadSheet.getSheetByName('運行予定日'),
     UpTimeTable: SpreadSheet.getSheetByName('時刻表（上り）'),
-    DownTimeTable: SpreadSheet.getSheetByName('時刻表（下り）')
+    DownTimeTable: SpreadSheet.getSheetByName('時刻表（下り）'),
+    Config: SpreadSheet.getSheetByName('config'),
 };
 
 class SheetAccessor {

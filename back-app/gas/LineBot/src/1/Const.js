@@ -3,6 +3,18 @@ const Operation = {
     Where: 'いまどこ？',
 };
 
+const ConfigKey = {
+    TokenProduct: 'TokenProduct',
+    TokenTest: 'TokenTest',
+    Mode: 'Mode',
+    Debug: 'Debug',
+};
+
+const ModeType = {
+    Product: '本番',
+    Test: 'テスト',
+};
+
 function IsNullOrEmpty(strings) {
     if (strings === undefined) {
         return true;

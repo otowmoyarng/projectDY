@@ -9,15 +9,23 @@ const LineAPI_EntryPoint = {
     AttachRichMenu: 'https://api.line.me/v2/bot/user'
 };
 const ReplyMessageSendMaxCount = 5;
-const ChannelAccessToken = GASProperties.GetProperty(GASPropertiesKey.ChannelAccessToken);
 const OptionBase = {
     method: 'post',
     headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + ChannelAccessToken,
+        Authorization: 'Bearer ' + getChannelAccessToken(),
     },
     payload: ''
 };
+/**
+ * チャンネルアクセストークンを取得する。
+ * @returns
+ */
+function getChannelAccessToken() {
+    const mode = Sheet.Config.getRange(ConfigKey.Mode).getValue();
+    return Sheet.Config.getRange(mode === ModeType.Product ? ConfigKey.TokenProduct : ConfigKey.TokenTest).getValue();
+}
+
 
 class LineApi {
 
@@ -48,536 +56,14 @@ class LineApi {
      * フレックスメッセージをリプライ送信する
      * 
      * @param replyToken リプライトークン
+     * @param calender 運行予定表
      */
-    ReplyFlexMessage(replyToken) {
+    ReplyFlexMessage(replyToken, calender) {
 
         let template = {
             type: 'flex',   // flex
-            altText: '今月の運行予定', // 代替テキスト
-            contents: {
-                type: "bubble",
-                body: {
-                    type: "box",
-                    layout: "vertical",
-                    contents: [
-                        {
-                            type: "box",
-                            layout: "horizontal",
-                            contents: [
-                                {
-                                    type: "button",
-                                    action: {
-                                        type: "message",
-                                        label: "←",
-                                        text: "2022/01"
-                                    },
-                                    position: "relative"
-                                },
-                                {
-                                    type: "filler"
-                                },
-                                {
-                                    type: "text",
-                                    text: "Now",
-                                    align: "center",
-                                    gravity: "center",
-                                    wrap: true
-                                },
-                                {
-                                    type: "filler"
-                                },
-                                {
-                                    type: "button",
-                                    action: {
-                                        type: "message",
-                                        label: "→",
-                                        text: "2022/03"
-                                    }
-                                }
-                            ]
-                        },
-                        {
-                            type: "separator"
-                        },
-                        {
-                            type: "box",
-                            layout: "horizontal",
-                            contents: [
-                                {
-                                    type: "text",
-                                    text: "日",
-                                    align: "center",
-                                    gravity: "center",
-                                    color: "#ff0000"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "月",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "火",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "水",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "木",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "金",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "土",
-                                    align: "center",
-                                    gravity: "center",
-                                    color: "#0000ff"
-                                },
-                                {
-                                    type: "separator"
-                                }
-                            ],
-                            spacing: "md"
-                        },
-                        {
-                            type: "separator"
-                        },
-                        {
-                            type: "box",
-                            layout: "horizontal",
-                            contents: [
-                                {
-                                    type: "text",
-                                    align: "center",
-                                    gravity: "center",
-                                    color: "#ff0000",
-                                    text: " "
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: " ",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "1",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "2",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "3",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "4",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "5",
-                                    align: "center",
-                                    gravity: "center",
-                                    color: "#0000ff"
-                                },
-                                {
-                                    type: "separator"
-                                }
-                            ],
-                            spacing: "md"
-                        },
-                        {
-                            type: "separator"
-                        },
-                        {
-                            type: "box",
-                            layout: "horizontal",
-                            contents: [
-                                {
-                                    type: "text",
-                                    text: "6",
-                                    align: "center",
-                                    gravity: "center",
-                                    color: "#ff0000"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "7",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "8",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "9",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "10",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "11",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "12",
-                                    align: "center",
-                                    gravity: "center",
-                                    color: "#0000ff"
-                                },
-                                {
-                                    type: "separator"
-                                }
-                            ],
-                            spacing: "md"
-                        },
-                        {
-                            type: "separator"
-                        },
-                        {
-                            type: "box",
-                            layout: "horizontal",
-                            contents: [
-                                {
-                                    type: "text",
-                                    text: "13",
-                                    align: "center",
-                                    gravity: "center",
-                                    color: "#ff0000"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "box",
-                                    layout: "vertical",
-                                    contents: [
-                                        {
-                                            type: "text",
-                                            text: "14",
-                                            align: "center",
-                                            gravity: "center"
-                                        }
-                                    ],
-                                    backgroundColor: "#ffdc00",
-                                    spacing: "none",
-                                    action: {
-                                        type: "message",
-                                        label: "14",
-                                        text: "のぼり下り"
-                                    }
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "box",
-                                    layout: "vertical",
-                                    contents: [
-                                        {
-                                            type: "text",
-                                            text: "15",
-                                            align: "center",
-                                            gravity: "center"
-                                        }
-                                    ],
-                                    backgroundColor: "#ffdc00",
-                                    spacing: "none",
-                                    action: {
-                                        type: "message",
-                                        label: "14",
-                                        text: "のぼり下り"
-                                    }
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "16",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "17",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "18",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "19",
-                                    align: "center",
-                                    gravity: "center",
-                                    color: "#0000ff"
-                                },
-                                {
-                                    type: "separator"
-                                }
-                            ],
-                            spacing: "md"
-                        },
-                        {
-                            type: "separator"
-                        },
-                        {
-                            type: "box",
-                            layout: "horizontal",
-                            contents: [
-                                {
-                                    type: "text",
-                                    text: "20",
-                                    align: "center",
-                                    gravity: "center",
-                                    color: "#ff0000"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "21",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "22",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "23",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "24",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "25",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "26",
-                                    align: "center",
-                                    gravity: "center",
-                                    color: "#0000ff"
-                                },
-                                {
-                                    type: "separator"
-                                }
-                            ],
-                            spacing: "md"
-                        },
-                        {
-                            type: "separator"
-                        },
-                        {
-                            type: "box",
-                            layout: "horizontal",
-                            contents: [
-                                {
-                                    type: "text",
-                                    text: "27",
-                                    align: "center",
-                                    gravity: "center",
-                                    color: "#ff0000"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: "28",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: " ",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: " ",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: " ",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: " ",
-                                    align: "center",
-                                    gravity: "center"
-                                },
-                                {
-                                    type: "separator"
-                                },
-                                {
-                                    type: "text",
-                                    text: " ",
-                                    align: "center",
-                                    gravity: "center",
-                                    color: "#0000ff"
-                                },
-                                {
-                                    type: "separator"
-                                }
-                            ],
-                            spacing: "md"
-                        },
-                        {
-                            type: "separator"
-                        }
-                    ]
-                }
-            }
+            altText: '運行予定表', // 代替テキスト
+            contents: calender
         };
         let options = Object.assign({}, OptionBase);
         options.payload = JSON.stringify({
@@ -646,9 +132,10 @@ class LineApi {
     // }
 
     /**
-     * プッシュメッセージを送る
+     * テキストメッセージをプッシュ送信する
+     * 
      * @param userId ユーザーID
-     * @param pushmessage メッセージオブジェクト
+     * @param pushmessage 運行予定表
      */
     PushTextMessage(userId, pushmessage) {
         const messages = [];
@@ -663,6 +150,27 @@ class LineApi {
         options.payload = JSON.stringify({
             to: userId,
             messages: messages
+        });
+        UrlFetchApp.fetch(LineAPI_EntryPoint.Push, options);
+    }
+
+    /**
+     * フレックスメッセージをプッシュ送信する
+     * 
+     * @param userId ユーザーID
+     * @param calender メッセージオブジェクト
+     */
+    PushFlexMessage(userId, calender) {
+
+        let template = {
+            type: 'flex',   // flex
+            altText: '運行予定表', // 代替テキスト
+            contents: calender
+        };
+        let options = Object.assign({}, OptionBase);
+        options.payload = JSON.stringify({
+            to: userId,
+            messages: [template]
         });
         UrlFetchApp.fetch(LineAPI_EntryPoint.Push, options);
     }
