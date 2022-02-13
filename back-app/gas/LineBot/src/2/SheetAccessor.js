@@ -8,6 +8,16 @@ const Sheet = {
 
 class SheetAccessor {
 
+    GetCalenders() {
+        return Sheet.Calender.getDataRange().getValues();
+    }
+
+    GetCalender(targetym) {
+        const calenderAll = this.GetCalenders();
+        let calenderList = calenderAll.filter(row => row[row.length - 1] === targetym);
+        return calenderList;
+    }
+
     // /**
     //  * ユーザーを取得する
     //  * @param userId ユーザーID
