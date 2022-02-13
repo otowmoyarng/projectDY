@@ -50,28 +50,27 @@ class DateUtil {
     /**
      * 指定日時の前月を返す。
      * @param date 日付
+     * @param monthValue 加算／減算する月数
      * @returns Dateオブジェクト
      */
-    static PreviewMonth(date) {
-        if (date.getMonth() === 0) {
-            return new Date(date.getFullYear() - 1, 11, date.getDate());
-        } else {
-            date.setMonth(date.getMonth() - 1);
-            return date
-        }
-    }
+    static AddMonth(date, monthValue) {
+        // 基準の年月日を取得
+        var year = date.getFullYear();
+        var month = date.getMonth();
+        var day = date.getDate();
 
-    /**
-     * 指定日時の翌月を返す。
-     * @param date 日付
-     * @returns Dateオブジェクト
-     */
-    static NextMonth(date) {
-        if (date.getMonth() === 11) {
-            return new Date(date.getFullYear() + 1, 0, date.getDate());
+        // 基準の年月からDateオブジェクトを生成
+        var newDate = new Date(year, month);
+        // 月の設定を変更
+        newDate.setMonth(newDate.getMonth() + monthValue);
+        // 末日を取得
+        var lastDay = new Date(newDate.getFullYear(), newDate.getMonth() + 1, 0).getDate();
+        // 元の日にちが該当月に無い場合はその月の末日を設定する
+        if (lastDay < day) {
+            newDate.setDate(lastDay);
         } else {
-            date.setMonth(date.getMonth() + 1);
-            return date
+            newDate.setDate(day);
         }
+        return newDate;
     }
 }

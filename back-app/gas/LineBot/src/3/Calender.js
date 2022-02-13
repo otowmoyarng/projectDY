@@ -10,10 +10,22 @@ class Calender {
 
         let calender = {
             type: "bubble",
+            body: {
+                type: "box",
+                layout: "vertical",
+                contents: [
+                    {
+                        type: "box",
+                        layout: "horizontal",
+                        contents: this.createCalenderHead(dateMonth)
+                    },
+                    separator,
+                ]
+            },
             footer: {
                 type: "box",
                 layout: "vertical",
-                contents: this.createFooter((dateMonth ? dateMonth : DateUtil.GetCurrentYm()))
+                contents: this.createFooter(dateMonth)
             },
             styles: {
                 footer: {
@@ -26,14 +38,16 @@ class Calender {
 
     }
 
-    createCalenderHead(dateMonth) {
+    createCalenderHead(dateMonth = undefined) {
+
+        const ym = DateUtil.Convert(dateMonth ? dateMonth : DateUtil.GetCurrentYm());
 
         let calenderHead = [{
             type: "button",
             action: {
                 type: "message",
                 label: "←",
-                text: "2022/01"
+                text: DateUtil.GetCurrentYm(DateUtil.AddMonth(ym, -1))
             },
             position: "relative"
         },
@@ -55,7 +69,7 @@ class Calender {
             action: {
                 type: "message",
                 label: "→",
-                text: "2022/03"
+                text: DateUtil.GetCurrentYm(DateUtil.AddMonth(ym, 1))
             }
         }];
 
@@ -63,7 +77,8 @@ class Calender {
     }
 
     createFooter(dateMonth) {
-        const result = sheetAccessor.GetCalender(dateMonth);
+        const ym = dateMonth ? dateMonth : DateUtil.GetCurrentYm();
+        const result = this.calenders(ym);
         const footers = result.map(row => {
             let text = `${row.Date}：${row.Train}${row.Destination}`;
             if (!IsNullOrEmpty(row.Remarks)) {
