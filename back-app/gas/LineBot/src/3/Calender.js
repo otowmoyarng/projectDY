@@ -38,9 +38,11 @@ class Calender {
         insertContentsList(this.createHeader(dateMonth));
         insertContentsList(this.createBodyHeader());
         const bodyList = this.createBody(dateMonth);
-        bodyList.forEach(body => {
-            insertContentsList(body);
-        });
+        if (bodyList.length > 0) {
+            bodyList.forEach(body => {
+                insertContentsList(body);
+            });
+        }
 
         let calender = {
             type: "bubble",
@@ -49,15 +51,19 @@ class Calender {
                 layout: "vertical",
                 contents: contentsList
             },
-            footer: {
-                type: "box",
-                layout: "vertical",
-                contents: this.createFooter(dateMonth)
-            },
             styles: {
                 footer: {
                     separator: true
                 }
+            }
+        }
+
+        const fooderContens = this.createFooter(dateMonth);
+        if (fooderContens.length > 0) {
+            calender['footer'] = {
+                type: "box",
+                layout: "vertical",
+                contents: fooderContens
             }
         }
         return calender;
@@ -65,7 +71,8 @@ class Calender {
 
     createHeader(dateMonth = undefined) {
 
-        const ym = DateUtil.Convert(dateMonth ? dateMonth : DateUtil.GetCurrentYm());
+        const current = dateMonth ? dateMonth : DateUtil.GetCurrentYm();
+        const ym = DateUtil.Convert(current);
 
         let calenderHead = [{
             type: "button",
@@ -81,7 +88,7 @@ class Calender {
         },
         {
             type: "text",
-            text: "Now",
+            text: `${ym.getMonth() + 1}月`,
             align: "center",
             gravity: "center",
             wrap: true
