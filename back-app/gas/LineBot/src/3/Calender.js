@@ -1,3 +1,18 @@
+const Separator = { type: "separator" };
+const BoxLayout = {
+    type: "box",
+    layout: "horizontal",
+    contents: [],
+    //    backgroundColor: ''
+}
+const CalenderCell = {
+    type: "text",
+    text: "",
+    align: "center",
+    gravity: "center",
+    color: ""
+}
+
 class Calender {
 
     /**
@@ -7,20 +22,32 @@ class Calender {
       * @param dateMonth 対象年月yyyy/MM
       */
     Show(replyToken, dateMonth = undefined) {
+        const calender = this.createCalender(dateMonth);
+        return LineApiDriver.ReplyFlexMessage(replyToken, calender);
+    }
+
+    createCalender(dateMonth = undefined) {
+        let contentsList = [];
+        const insertContentsList = item => {
+            let box = Object.assign({}, BoxLayout);
+            box.contents = item;
+            contentsList.push(box);
+            contentsList.push(Separator);
+        };
+
+        insertContentsList(this.createHeader(dateMonth));
+        insertContentsList(this.createBodyHeader());
+        // const bodyList = this.createBody(dateMonth);
+        // bodyList.forEach(body => {
+        //     insertContentsList(body);
+        // });
 
         let calender = {
             type: "bubble",
             body: {
                 type: "box",
                 layout: "vertical",
-                contents: [
-                    {
-                        type: "box",
-                        layout: "horizontal",
-                        contents: this.createCalenderHead(dateMonth)
-                    },
-                    separator,
-                ]
+                contents: contentsList
             },
             footer: {
                 type: "box",
@@ -33,12 +60,10 @@ class Calender {
                 }
             }
         }
-
-        return LineApiDriver.ReplyFlexMessage(replyToken, calender);
-
+        return calender;
     }
 
-    createCalenderHead(dateMonth = undefined) {
+    createHeader(dateMonth = undefined) {
 
         const ym = DateUtil.Convert(dateMonth ? dateMonth : DateUtil.GetCurrentYm());
 
@@ -74,6 +99,33 @@ class Calender {
         }];
 
         return calenderHead;
+    }
+
+    createBodyHeader() {
+        const weeks = ['日', '月', '火', '水', '木', '金', '土'];
+        let headers = [];
+        weeks.forEach(week => {
+            let cell = Object.assign({}, CalenderCell);
+            cell.text = week;
+            switch (week) {
+                case '日':
+                    cell.color = ColorCode.Red;
+                    break;
+                case '土':
+                    cell.color = ColorCode.Blue;
+                    break;
+                default:
+                    cell.color = ColorCode.Black;
+                    break;
+            }
+            headers.push(cell);
+            headers.push(Separator);
+        });
+        return headers;
+    }
+
+    createBody(dateMonth) {
+        return null;
     }
 
     createFooter(dateMonth) {
@@ -151,7 +203,6 @@ class Calender {
                 text: "2022/03"
             }
         }];
-        const separator = { type: "separator" };
         let calender = {
             type: "bubble",
             body: {
@@ -163,7 +214,7 @@ class Calender {
                         layout: "horizontal",
                         contents: calenderHead
                     },
-                    separator,
+                    Separator,
                     {
                         type: "box",
                         layout: "horizontal",
@@ -175,42 +226,42 @@ class Calender {
                                 gravity: "center",
                                 color: "#ff0000"
                             },
-                            separator,
+                            Separator,
                             {
                                 type: "text",
                                 text: "月",
                                 align: "center",
                                 gravity: "center"
                             },
-                            separator,
+                            Separator,
                             {
                                 type: "text",
                                 text: "火",
                                 align: "center",
                                 gravity: "center"
                             },
-                            separator,
+                            Separator,
                             {
                                 type: "text",
                                 text: "水",
                                 align: "center",
                                 gravity: "center"
                             },
-                            separator,
+                            Separator,
                             {
                                 type: "text",
                                 text: "木",
                                 align: "center",
                                 gravity: "center"
                             },
-                            separator,
+                            Separator,
                             {
                                 type: "text",
                                 text: "金",
                                 align: "center",
                                 gravity: "center"
                             },
-                            separator,
+                            Separator,
                             {
                                 type: "text",
                                 text: "土",
@@ -218,11 +269,11 @@ class Calender {
                                 gravity: "center",
                                 color: "#0000ff"
                             },
-                            separator
+                            Separator
                         ],
                         spacing: "md"
                     },
-                    separator,
+                    Separator,
                     {
                         type: "box",
                         layout: "horizontal",

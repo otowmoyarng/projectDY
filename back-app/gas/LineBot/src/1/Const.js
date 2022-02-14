@@ -16,6 +16,13 @@ const ModeType = {
     Test: 'テスト',
 };
 
+const ColorCode = {
+    Red: '#ff0000',
+    Blue: '#0000ff',
+    Black: '#000000',
+    DoctorYellow: '#ffdc00',
+}
+
 function IsNullOrEmpty(strings) {
     if (strings === undefined) {
         return true;
@@ -34,7 +41,7 @@ function IsNullOrEmpty(strings) {
  * @returns テスト用ユーザーID
  */
 function GetTestUserId() {
-    const value = PropertiesService.getScriptProperties().getProperty(GASPropertiesKey.UserId);
+    const value = PropertiesService.getScriptProperties().getProperty('LINE_UserId');
     if (value === null) {
         console.error(`key[${key}]がプロパティに存在しません。`);
     }

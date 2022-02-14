@@ -1,7 +1,21 @@
-function CalenderTest_createCalenderHead() {
+function CalenderTest_createCalender() {
     const params = [undefined, "2021/12/10", "2022/01/01"];
     params.forEach(param => {
-        console.log(`param:${param}, result:`, calender.createCalenderHead(param));
+        console.log(`param:${param}, result:`, calender.createCalender(param));
+    });
+}
+
+function CalenderTest_createHeader() {
+    const params = [undefined, "2021/12/10", "2022/01/01"];
+    params.forEach(param => {
+        console.log(`param:${param}, result:`, calender.createHeader(param));
+    });
+}
+
+function CalenderTest_createBodyHeader() {
+    const result = calender.createBodyHeader();
+    result.forEach(row => {
+        console.log("row", row);
     });
 }
 
