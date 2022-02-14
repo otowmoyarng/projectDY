@@ -48,7 +48,7 @@ class DateUtil {
     }
 
     /**
-     * 指定日時の前月を返す。
+     * 指定年月の加算／減算
      * @param date 日付
      * @param monthValue 加算／減算する月数
      * @returns Dateオブジェクト
@@ -72,5 +72,14 @@ class DateUtil {
             newDate.setDate(day);
         }
         return newDate;
+    }
+
+    /**
+     * 指定日の月末日付を返す
+     * @param date 日付
+     * @returns Dateオブジェクト
+     */
+    static GetDateEndOfMonth(date) {
+        return new Date(date.getFullYear(), date.getMonth() + 1, 0);
     }
 }

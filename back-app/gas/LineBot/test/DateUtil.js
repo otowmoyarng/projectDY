@@ -19,3 +19,10 @@ function DateUtilTest_AddMonth() {
         console.log(`param:${param},monthValue:${monthValue} -> ${DateUtil.GetCurrentYmd(DateUtil.AddMonth(DateUtil.Convert(param), monthValue))}`);
     });
 }
+
+function DateUtilTest_GetDateEndOfMonth() {
+    const params = ["2022/02/22", "2022/01/01"];
+    params.forEach(param => {
+        console.log(`param:${param} -> ${DateUtil.GetCurrentYmd(DateUtil.GetDateEndOfMonth(DateUtil.Convert(param)))}`);
+    });
+}

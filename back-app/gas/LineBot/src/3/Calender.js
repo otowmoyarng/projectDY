@@ -37,10 +37,10 @@ class Calender {
 
         insertContentsList(this.createHeader(dateMonth));
         insertContentsList(this.createBodyHeader());
-        // const bodyList = this.createBody(dateMonth);
-        // bodyList.forEach(body => {
-        //     insertContentsList(body);
-        // });
+        const bodyList = this.createBody(dateMonth);
+        bodyList.forEach(body => {
+            insertContentsList(body);
+        });
 
         let calender = {
             type: "bubble",
@@ -104,35 +104,88 @@ class Calender {
     createBodyHeader() {
         const weeks = ['日', '月', '火', '水', '木', '金', '土'];
         let headers = [];
-        weeks.forEach(week => {
-            let cell = Object.assign({}, CalenderCell);
-            cell.text = week;
-            switch (week) {
-                case '日':
-                    cell.color = ColorCode.Red;
-                    break;
-                case '土':
-                    cell.color = ColorCode.Blue;
-                    break;
-                default:
-                    cell.color = ColorCode.Black;
-                    break;
-            }
-            headers.push(cell);
+        for (let day = 0; day < 7; day++) {
+            headers.push(this.generateCalenderCell(weeks[day], day));
             headers.push(Separator);
-        });
+        }
         return headers;
     }
 
     createBody(dateMonth) {
-        return null;
+        // CalenderCellの２次元配列を返す
+        let bodyList = [];
+        let rows = [];
+
+        // 現在日時を取得する
+        const ym = dateMonth ? dateMonth : DateUtil.GetCurrentYm();
+        let targetDate = DateUtil.Convert(ym);
+        const startDate = DateUtil.Convert(ym);
+        const endDate = DateUtil.GetDateEndOfMonth(startDate);
+
+        const calenderList = this.calenders(ym);
+
+        // 日曜開始でなければ日曜開始の日付からスタート
+        if (targetDate.getDay() !== 0) {
+            targetDate.setDate(targetDate.getDate() - targetDate.getDay());
+        }
+
+        // 翌月までループ
+        let canLoop = true;
+        while (canLoop) {
+
+            let text = (targetDate < startDate || targetDate > endDate) ? ` ` : String(targetDate.getDate());
+            const cell = this.generateCalenderCell(text, targetDate.getDay());
+
+            const matchList = calenderList.filter(row => row.Date === DateUtil.GetCurrentYmd(targetDate));
+            if (matchList.length === 0) {
+                rows.push(cell);
+            } else {
+                let box = Object.assign({}, BoxLayout);
+                box['backgroundColor'] = ColorCode.DoctorYellow;
+                box.contents = [cell];
+                rows.push(box);
+            }
+            rows.push(Separator);
+
+            // 7つ揃ったら次の行へ
+            if (rows.length === 14) {
+                bodyList.push(rows);
+                rows = [];
+            }
+
+            targetDate.setDate(targetDate.getDate() + 1);
+
+            // カレンダーが埋まったら終了
+            if (bodyList.length == 5) {
+                canLoop = false;
+            }
+        }
+        return bodyList;
+    }
+
+    generateCalenderCell(text, day) {
+
+        let cell = Object.assign({}, CalenderCell);
+        cell.text = text;
+        switch (day) {
+            case 0: // 日曜
+                cell.color = ColorCode.Red;
+                break;
+            case 6: // 土曜
+                cell.color = ColorCode.Blue;
+                break;
+            default: // 平日
+                cell.color = ColorCode.Black;
+                break;
+        }
+        return cell;
     }
 
     createFooter(dateMonth) {
         const ym = dateMonth ? dateMonth : DateUtil.GetCurrentYm();
         const result = this.calenders(ym);
         const footers = result.map(row => {
-            let text = `${row.Date}：${row.Train}${row.Destination}`;
+            let text = `${DateUtil.Convert(row.Date).getDate()}日：${row.Train}${row.Destination}`;
             if (!IsNullOrEmpty(row.Remarks)) {
                 text += `（${row.Remarks}）`
             }
