@@ -13,21 +13,23 @@ const OptionBase = {
     method: 'post',
     headers: {
         'Content-Type': 'application/json',
-        Authorization: 'Bearer ' + getChannelAccessToken(),
+        Authorization: '',
     },
     payload: ''
 };
-/**
- * チャンネルアクセストークンを取得する。
- * @returns
- */
-function getChannelAccessToken() {
-    const mode = Sheet.Config.getRange(ConfigKey.Mode).getValue();
-    return Sheet.Config.getRange(mode === ModeType.Product ? ConfigKey.TokenProduct : ConfigKey.TokenTest).getValue();
-}
-
 
 class LineApi {
+
+    generateOption() {
+        const getChannelAccessToken = () => {
+            const mode = Sheet.Config.getRange(ConfigKey.Mode).getValue();
+            return Sheet.Config.getRange(mode === ModeType.Product ? ConfigKey.TokenProduct : ConfigKey.TokenTest).getValue();
+        };
+
+        let options = Object.assign({}, OptionBase);
+        options.headers.Authorization = 'Bearer ' + getChannelAccessToken()
+        return options;
+    }
 
     /**
      * テキストメッセージをリプライ送信する
@@ -44,7 +46,7 @@ class LineApi {
             })
         })
 
-        let options = Object.assign({}, OptionBase);
+        let options = this.generateOption();
         options.payload = JSON.stringify({
             replyToken: replyToken,
             messages: messages
@@ -65,7 +67,7 @@ class LineApi {
             altText: '運行予定表', // 代替テキスト
             contents: calender
         };
-        let options = Object.assign({}, OptionBase);
+        let options = this.generateOption();
         options.payload = JSON.stringify({
             replyToken: replyToken,
             messages: [template]
@@ -115,21 +117,21 @@ class LineApi {
     //     UrlFetchApp.fetch(LineAPI_EntryPoint.Reply, options);
     // }
 
-    // /**
-    //  * ブロードキャストメッセージを送る
-    //  * @param   message 送信メッセージ
-    //  */
-    // BroadcastMessage(message) {
-    //     const payload = {
-    //         messages: [
-    //             { type: 'text', text: message }
-    //         ]
-    //     };
+    /**
+     * ブロードキャストメッセージを送る
+     * @param   message 送信メッセージ
+     */
+    BroadcastMessage(message) {
+        const payload = {
+            messages: [
+                { type: 'text', text: message }
+            ]
+        };
 
-    //     let options = Object.assign({}, OptionBase);
-    //     options.payload = JSON.stringify(payload);
-    //     UrlFetchApp.fetch(LineAPI_EntryPoint.Broadcast, options);
-    // }
+        let options = this.generateOption();
+        options.payload = JSON.stringify(payload);
+        UrlFetchApp.fetch(LineAPI_EntryPoint.Broadcast, options);
+    }
 
     /**
      * テキストメッセージをプッシュ送信する
@@ -146,7 +148,7 @@ class LineApi {
             })
         })
 
-        let options = Object.assign({}, OptionBase);
+        let options = this.generateOption();
         options.payload = JSON.stringify({
             to: userId,
             messages: messages
@@ -167,7 +169,7 @@ class LineApi {
             altText: '運行予定表', // 代替テキスト
             contents: calender
         };
-        let options = Object.assign({}, OptionBase);
+        let options = this.generateOption();
         options.payload = JSON.stringify({
             to: userId,
             messages: [template]

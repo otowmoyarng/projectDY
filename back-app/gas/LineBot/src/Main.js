@@ -3,21 +3,20 @@
  */
 function Main() {
 
-    // スプレッドシートを取得する
-    const spreadSheetID = GASProperties.GetProperty(GASPropertiesKey.SpreadSheetID);
-    const sheetName = GASProperties.GetProperty(GASPropertiesKey.SheetName);
-    if (spreadSheetID === null || sheetName === null) {
-        return;
-    }
+    var table = sheetAccessor.GetCalender(DateUtil.GetCurrentYm());
 
-    const sheet = SpreadsheetApp.openById(spreadSheetID).getSheetByName(sheetName);
-    if (sheet === null) {
-        console.error(`スプレッドシートが取得できませんでした。スプレッドシートID:${spreadSheetID}、シート名:${sheetName}`);
-        return;
-    }
+    // テストモードでも本番モードで通知する
+    const ModeReflesh = mode => {
+        Sheet.Config.getRange(ConfigKey.Mode).setValue(mode);
+        Sheet.Config.getRange(ConfigKey.Mode).getValue();
+    };
 
-    // 日付と担当者の一覧表を二次元配列で取得する
-    var table = sheet.getRange(2, 1, sheet.getLastRow(), 3).getValues();
+    const mode = Sheet.Config.getRange(ConfigKey.Mode).getValue();
+    let isTestMode = false;
+    if (mode === ModeType.Test) {
+        isTestMode = true;
+        ModeReflesh(ModeType.Product);
+    }
 
     for (var index = 0; index < table.length; index++) {
 
@@ -31,8 +30,13 @@ function Main() {
         var operate_Destination = table[index][2];
 
         var content = `今日は${operate_Train}${operate_Destination}の検測予定日です。`;
-        LineBot.SendBroadcast(content);
+        LineApiDriver.BroadcastMessage(content);
         break;
+    }
+
+    // テストモードに戻す
+    if (isTestMode) {
+        ModeReflesh(ModeType.Test);
     }
 }
 
@@ -44,14 +48,12 @@ function Main() {
 function IsToday(operate_Date) {
 
     var date = new Date(operate_Date);
-    //console.log("date:", date.getFullYear(), date.getMonth() + 1, date.getDate());
 
     // operate_Dateが日付書式でない場合
     if (date.toDateString() === 'Invalid Date')
         return false;
 
     var today = new Date();
-    //console.log("now:", [today.getFullYear(), today.getMonth() + 1, today.getDate(), today.toDateString(), today]);
 
     return date.toDateString() === today.toDateString();
 }
