@@ -16,6 +16,16 @@ const ModeType = {
     Test: 'テスト',
 };
 
+const TrainType = {
+    Nozomi: 'のぞみ',
+    Kodama: 'こだま',
+};
+
+const Destination = {
+    Up: '上り',
+    Down: '下り',
+};
+
 const ColorCode = {
     Red: '#ff0000',
     Blue: '#0000ff',

@@ -21,6 +21,18 @@ class SheetAccessor {
         return calenderList;
     }
 
+    GetUpTimeTable() {
+        const timeTable = Sheet.UpTimeTable.getDataRange().getValues();
+        timeTable.shift();
+        return timeTable;
+    }
+
+    GetDownTimeTable() {
+        const timeTable = Sheet.DownTimeTable.getDataRange().getValues();
+        timeTable.shift();
+        return timeTable;
+    }
+
     // /**
     //  * ユーザーを取得する
     //  * @param userId ユーザーID
