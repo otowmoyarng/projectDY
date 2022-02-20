@@ -4,7 +4,7 @@ class TimeTable {
     /**
      * 時刻表を表示する
      * @param replyToken リプライトークン
-     * @param text ああ
+     * @param text 送信メッセージ
      */
     Show(replyToken, text) {
         // TODO
@@ -12,9 +12,28 @@ class TimeTable {
     }
 
     /**
+     * 送信メッセージからのぞみ/こだまを判定する。
+     * @param text 送信メッセージ
+     * @returns 判定結果
+     */
+    getTrainType(text) {
+        return text.startsWith(TrainType.Kodama) ? TrainType.Kodama : TrainType.Nozomi;
+    }
+
+    /**
+     * 送信メッセージから上り/下りを判定する。
+     * @param text 送信メッセージ
+     * @returns 判定結果
+     */
+    getDestination(text) {
+        return text.endsWith(Destination.Up) ? Destination.Up : Destination.Down;
+    }
+
+    /**
      * 時刻表を取得する
      * @param trainType のぞみ/こだま
      * @param destination 上り/下り
+     * @returns 時刻表データ
      */
     get(trainType, destination) {
         let result;

@@ -1,23 +1,8 @@
 function TimeTableTest_get() {
-    const params = [
-        {
-            TrainType: TrainType.Nozomi,
-            Destination: Destination.Down
-        },
-        {
-            TrainType: TrainType.Nozomi,
-            Destination: Destination.Up
-        },
-        {
-            TrainType: TrainType.Kodama,
-            Destination: Destination.Down
-        },
-        {
-            TrainType: TrainType.Kodama,
-            Destination: Destination.Up
-        }
-    ];
-    params.forEach(param => {
-        console.log(`param:${param.TrainType + param.Destination}, result:`, timeTable.get(param.TrainType, param.Destination));
+    Choices.forEach(choice => {
+        const trainType = timeTable.getTrainType(choice);
+        const destination = timeTable.getDestination(choice);
+        console.log(`choice:${choice}, TrainType:${trainType}, Destination:${destination}`);
+        console.log("result:", timeTable.get(trainType, destination));
     });
 }
