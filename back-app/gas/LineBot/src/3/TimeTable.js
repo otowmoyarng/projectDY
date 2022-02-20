@@ -2,6 +2,16 @@
 class TimeTable {
 
     /**
+     * 時刻表を表示する
+     * @param replyToken リプライトークン
+     * @param text ああ
+     */
+    Show(replyToken, text) {
+        // TODO
+        return LineApiDriver.ReplyTextMessage(replyToken, [`送信内容:${text}`]);
+    }
+
+    /**
      * 時刻表を取得する
      * @param trainType のぞみ/こだま
      * @param destination 上り/下り

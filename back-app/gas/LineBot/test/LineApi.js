@@ -1,9 +1,8 @@
-function LineApiTest_getChannelAccessToken() {
-
+function LineApiTest_generateOption() {
     const unittest = mode => {
         Sheet.Config.getRange(ConfigKey.Mode).setValue(mode);
         console.log(`mode:${Sheet.Config.getRange(ConfigKey.Mode).getValue()}`);
-        console.log(`ChannelAccessToken:${getChannelAccessToken()}`);
+        console.log("option:", LineApiDriver.generateOption());
     };
 
     // 本番モードで検証
@@ -11,10 +10,6 @@ function LineApiTest_getChannelAccessToken() {
 
     // テストモードで検証
     unittest(ModeType.Test);
-}
-
-function LineApiTest_generateOption() {
-    console.log("option:", LineApiDriver.generateOption());
 }
 
 function LineApiTest_PushFlexMessage() {
