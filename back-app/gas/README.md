@@ -39,12 +39,11 @@ jsファイルからgsファイルが作成され、GASプロジェクトにア�
 実行時はファイルの順序でロードされるため、他のモジュールを参照するものはロード順を意識する必要がある。
 src階層内のソースはデプロイ後に入れ替えが必要となる。
 
-1. Const.gs
-1. SheetAccessor.gs
-1. LineApi.gs
-1. User.gs
-1. Logs.gs
-1. Dispatcher.gs
+```bash
+clasp deploy --deploymentId {deployId} --description "{description}"
+```
+
+GASプロジェクトをデプロイする。外部から使用可能となる。
 
 ---
 
