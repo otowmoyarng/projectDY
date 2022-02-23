@@ -20,17 +20,21 @@ login:
 	echo exitと入力する
 	clasp login
 
-push-test:
-	echo gas push test start
+switch-test:
 	clasp setting scriptId $(scriptId-test)
 	clasp setting rootDir $(rootDir)
+
+switch-prod:
+	clasp setting scriptId $(scriptId-prod)
+	clasp setting rootDir $(rootDir)
+
+push-test:
+	echo gas push test start
 	clasp push
 	echo gas push test finish
 
 push-prod:
 	echo gas push test start
-	clasp setting scriptId $(scriptId-prod)
-	clasp setting rootDir $(rootDir)
 	clasp push
 	echo gas push test finish
 
