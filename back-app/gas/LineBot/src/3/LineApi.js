@@ -21,13 +21,8 @@ const OptionBase = {
 class LineApi {
 
     generateOption() {
-        const getChannelAccessToken = () => {
-            const mode = Sheet.Config.getRange(ConfigKey.Mode).getValue();
-            return Sheet.Config.getRange(mode === ModeType.Product ? ConfigKey.TokenProduct : ConfigKey.TokenTest).getValue();
-        };
-
         let options = Object.assign({}, OptionBase);
-        options.headers.Authorization = 'Bearer ' + getChannelAccessToken()
+        options.headers.Authorization = 'Bearer ' + GASProperties.GetProperty(GASPropertiesKey.ChannelAccessToken);
         return options;
     }
 

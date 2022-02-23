@@ -3,8 +3,7 @@
  * @returns テスト用ユーザーID
  */
 function GetTestUserId() {
-    const key = 'LINE_UserId_' + Sheet.Config.getRange(ConfigKey.Mode).getValue();
-    const value = PropertiesService.getScriptProperties().getProperty(key);
+    const value = PropertiesService.getScriptProperties().getProperty(GASPropertiesKey.LINEUserId);
     if (value === null) {
         console.error(`key[${key}]がプロパティに存在しません。`);
     }
