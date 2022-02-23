@@ -11,9 +11,9 @@ const ConfigKey = {
     Debug: 'Debug',
 };
 
-const ModeType = {
-    Product: '本番',
-    Test: 'テスト',
+const DebugType = {
+    OFF: 'OFF',
+    ON: 'ON',
 };
 
 const TrainType = {

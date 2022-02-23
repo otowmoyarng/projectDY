@@ -17,3 +17,14 @@ function SheetAccessorTest_GetUpTimeTable() {
 function SheetAccessorTest_GetDownTimeTable() {
     console.log("GetDownTimeTable:", sheetAccessor.GetDownTimeTable());
 }
+
+function SheetAccessorTest_IsDebug() {
+    const unittest = mode => {
+        Sheet.Config.getRange(ConfigKey.Debug).setValue(mode);
+        console.log(`DebugMode:${Sheet.Config.getRange(ConfigKey.Debug).getValue()}`);
+        console.log("IsDebug:", sheetAccessor.IsDebug());
+    };
+
+    unittest(DebugType.OFF);
+    unittest(DebugType.ON);
+}

@@ -3,7 +3,6 @@
  * @param request HTTPRequest
  */
 function doPost(request) {
-
     try {
         // POSTリクエストをJSONデータにパース
         const receiveJSON = JSON.parse(request.postData.contents);
@@ -17,6 +16,10 @@ function doPost(request) {
 }
 
 function routing(event) {
+
+    if (sheetAccessor.IsDebug()) {
+        Logger.WriteLog(event.source.userId, event.message.text);
+    }
 
     // いつはしる？（当月）→運行予定カレンダー（当月）を表示する
     if (event.message.text === Operation.When) {
