@@ -21,13 +21,8 @@ const OptionBase = {
 class LineApi {
 
     generateOption() {
-        const getChannelAccessToken = () => {
-            const mode = Sheet.Config.getRange(ConfigKey.Mode).getValue();
-            return Sheet.Config.getRange(mode === ModeType.Product ? ConfigKey.TokenProduct : ConfigKey.TokenTest).getValue();
-        };
-
         let options = Object.assign({}, OptionBase);
-        options.headers.Authorization = 'Bearer ' + getChannelAccessToken()
+        options.headers.Authorization = 'Bearer ' + GASProperties.GetProperty(GASPropertiesKey.ChannelAccessToken);
         return options;
     }
 
@@ -75,47 +70,47 @@ class LineApi {
         UrlFetchApp.fetch(LineAPI_EntryPoint.Reply, options);
     }
 
-    // /**
-    //  * ボタン型テンプレートメッセージをリプライ送信する
-    //  * 
-    //  * @param replyToken リプライトークン
-    //  * @param title title
-    //  * @param imgSrc 画像URL
-    //  * @param question 質問内容
-    //  * @param choices 選択肢
-    //  */
-    // ReplyButtonMessage(replyToken, title, imgSrc, question, choices) {
-    //     const actions = [];
-    //     choices.split(',').forEach(choice => {
-    //         actions.push({
-    //             type: 'message',
-    //             label: choice,
-    //             text: choice
-    //         });
-    //     });
+    /**
+     * ボタン型テンプレートメッセージをリプライ送信する
+     * 
+     * @param replyToken リプライトークン
+     * @param title title
+     * @param imgSrc 画像URL
+     * @param question 質問内容
+     * @param choices 選択肢
+     */
+    ReplyButtonMessage(replyToken, title, imgSrc, question, choices) {
+        const actions = [];
+        choices.forEach(choice => {
+            actions.push({
+                type: 'message',
+                label: choice,
+                text: choice
+            });
+        });
 
-    //     let template = {
-    //         type: 'template',   // template固定
-    //         altText: 'altText', // 代替テキスト
-    //         template: {
-    //             type: 'buttons',                // button固定
-    //             imageAspectRatio: 'rectangle',  // 画像のアスペクト rectangle/square
-    //             imageSize: 'contain',           // 画像の表示形式 cover/contain
-    //             title: title,                   // タイトル
-    //             text: question,                 // メッセージテキスト
-    //             actions: actions                // タップされたときのアクション
-    //         }
-    //     };
-    //     if (!IsNullOrEmpty(imgSrc)) {
-    //         template.template['thumbnailImageUrl'] = imgSrc;
-    //     }
-    //     let options = Object.assign({}, OptionBase);
-    //     options.payload = JSON.stringify({
-    //         replyToken: replyToken,
-    //         messages: [template]
-    //     });
-    //     UrlFetchApp.fetch(LineAPI_EntryPoint.Reply, options);
-    // }
+        let template = {
+            type: 'template',   // template固定
+            altText: 'altText', // 代替テキスト
+            template: {
+                type: 'buttons',                // button固定
+                imageAspectRatio: 'rectangle',  // 画像のアスペクト rectangle/square
+                imageSize: 'contain',           // 画像の表示形式 cover/contain
+                title: title,                   // タイトル
+                text: question,                 // メッセージテキスト
+                actions: actions                // タップされたときのアクション
+            }
+        };
+        if (!IsNullOrEmpty(imgSrc)) {
+            template.template['thumbnailImageUrl'] = imgSrc;
+        }
+        let options = this.generateOption();
+        options.payload = JSON.stringify({
+            replyToken: replyToken,
+            messages: [template]
+        });
+        UrlFetchApp.fetch(LineAPI_EntryPoint.Reply, options);
+    }
 
     /**
      * ブロードキャストメッセージを送る
@@ -177,47 +172,47 @@ class LineApi {
         UrlFetchApp.fetch(LineAPI_EntryPoint.Push, options);
     }
 
-    // /**
-    //  * ボタンテンプレートメッセージをプッシュ送信する
-    //  * 
-    //  * @param userId ユーザーID
-    //  * @param title title
-    //  * @param imgSrc 画像URL
-    //  * @param question 質問内容
-    //  * @param choices 選択肢
-    //  */
-    // PushBottunMessage(userId, title, imgSrc, question, choices) {
-    //     const actions = [];
-    //     choices.split(',').forEach(choice => {
-    //         actions.push({
-    //             type: 'message',
-    //             label: choice,
-    //             text: choice
-    //         });
-    //     });
+    /**
+     * ボタンテンプレートメッセージをプッシュ送信する
+     * 
+     * @param userId ユーザーID
+     * @param title title
+     * @param imgSrc 画像URL
+     * @param question 質問内容
+     * @param choices 選択肢
+     */
+    PushButtunMessage(userId, title, imgSrc, question, choices) {
+        const actions = [];
+        choices.forEach(choice => {
+            actions.push({
+                type: 'message',
+                label: choice,
+                text: choice
+            });
+        });
 
-    //     let template = {
-    //         type: 'template',   // template固定
-    //         altText: 'altText', // 代替テキスト
-    //         template: {
-    //             type: 'buttons',                // button固定
-    //             imageAspectRatio: 'rectangle',  // 画像のアスペクト rectangle/square
-    //             imageSize: 'contain',           // 画像の表示形式 cover/contain
-    //             title: title,                   // タイトル
-    //             text: question,                 // メッセージテキスト
-    //             actions: actions                // タップされたときのアクション
-    //         }
-    //     };
-    //     if (!IsNullOrEmpty(imgSrc)) {
-    //         template.template['thumbnailImageUrl'] = imgSrc;
-    //     }
-    //     let options = Object.assign({}, OptionBase);
-    //     options.payload = JSON.stringify({
-    //         to: userId,
-    //         messages: [template]
-    //     });
-    //     UrlFetchApp.fetch(LineAPI_EntryPoint.Push, options);
-    // }
+        let template = {
+            type: 'template',   // template固定
+            altText: 'altText', // 代替テキスト
+            template: {
+                type: 'buttons',                // button固定
+                imageAspectRatio: 'rectangle',  // 画像のアスペクト rectangle/square
+                imageSize: 'contain',           // 画像の表示形式 cover/contain
+                title: title,                   // タイトル
+                text: question,                 // メッセージテキスト
+                actions: actions                // タップされたときのアクション
+            }
+        };
+        if (!IsNullOrEmpty(imgSrc)) {
+            template.template['thumbnailImageUrl'] = imgSrc;
+        }
+        let options = this.generateOption();
+        options.payload = JSON.stringify({
+            to: userId,
+            messages: [template]
+        });
+        UrlFetchApp.fetch(LineAPI_EntryPoint.Push, options);
+    }
 }
 
 const LineApiDriver = new LineApi();

@@ -11,10 +11,27 @@ const ConfigKey = {
     Debug: 'Debug',
 };
 
-const ModeType = {
-    Product: '本番',
-    Test: 'テスト',
+const DebugType = {
+    OFF: 'OFF',
+    ON: 'ON',
 };
+
+const TrainType = {
+    Nozomi: 'のぞみ',
+    Kodama: 'こだま',
+};
+
+const Destination = {
+    Up: '上り',
+    Down: '下り',
+};
+
+const Choices = [
+    TrainType.Nozomi + Destination.Down,
+    TrainType.Nozomi + Destination.Up,
+    TrainType.Kodama + Destination.Down,
+    TrainType.Kodama + Destination.Up,
+];
 
 const ColorCode = {
     Red: '#ff0000',
@@ -34,16 +51,4 @@ function IsNullOrEmpty(strings) {
         return true;
     }
     return false;
-}
-
-/**
- * プロジェクトのプロパティに登録されたテスト用のユーザーIDを取得する。
- * @returns テスト用ユーザーID
- */
-function GetTestUserId() {
-    const value = PropertiesService.getScriptProperties().getProperty('LINE_UserId');
-    if (value === null) {
-        console.error(`key[${key}]がプロパティに存在しません。`);
-    }
-    return value;
 }
