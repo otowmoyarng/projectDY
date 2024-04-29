@@ -2,8 +2,11 @@ const SpreadSheet = SpreadsheetApp.getActiveSpreadsheet();
 
 const Sheet = {
     Calender: SpreadSheet.getSheetByName('運行予定日'),
-    UpTimeTable: SpreadSheet.getSheetByName('時刻表（上り）'),
-    DownTimeTable: SpreadSheet.getSheetByName('時刻表（下り）'),
+    NozomiDownTimeTable: SpreadSheet.getSheetByName('時刻表・のぞみ下り'),
+    NozomiUpTimeTable: SpreadSheet.getSheetByName('時刻表・のぞみ上り'),
+    KodamaDownTimeTable: SpreadSheet.getSheetByName('時刻表・こだま下り'),
+    KodamaUpTimeTable: SpreadSheet.getSheetByName('時刻表・こだま上り'),
+    Station: SpreadSheet.getSheetByName('駅'),
     Config: SpreadSheet.getSheetByName('config'),
     Logs: SpreadSheet.getSheetByName('logs'),
 };
@@ -22,16 +25,34 @@ class SheetAccessor {
         return calenderList;
     }
 
-    GetUpTimeTable() {
-        const timeTable = Sheet.UpTimeTable.getDataRange().getValues();
+    GetNozomiUpTimeTable() {
+        const timeTable = Sheet.NozomiUpTimeTable.getDataRange().getValues();
         timeTable.shift();
         return timeTable;
     }
 
-    GetDownTimeTable() {
-        const timeTable = Sheet.DownTimeTable.getDataRange().getValues();
+    GetNozomiDownTimeTable() {
+        const timeTable = Sheet.NozomiDownTimeTable.getDataRange().getValues();
         timeTable.shift();
         return timeTable;
+    }
+
+    GetKodamaUpTimeTable() {
+        const timeTable = Sheet.KodamaUpTimeTable.getDataRange().getValues();
+        timeTable.shift();
+        return timeTable;
+    }
+
+    GetKodamaDownTimeTable() {
+        const timeTable = Sheet.KodamaDownTimeTable.getDataRange().getValues();
+        timeTable.shift();
+        return timeTable;
+    }
+
+    GetStations() {
+        const stationAll = Sheet.Station.getDataRange().getValues();
+        stationAll.shift();
+        return stationAll;
     }
 
     IsDebug() {

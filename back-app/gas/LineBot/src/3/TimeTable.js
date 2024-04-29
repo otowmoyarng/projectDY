@@ -7,8 +7,11 @@ class TimeTable {
      * @param text 送信メッセージ
      */
     Show(replyToken, text) {
-        // TODO
+        // TODO：text値に該当するシートから時刻表データを取得する
+        // TODO：時刻表を生成する
         return LineApiDriver.ReplyTextMessage(replyToken, [`送信内容:${text}`]);
+        // TODO：ReplyFlexMessageを送信する
+        //return LineApiDriver.ReplyFlexMessage(replyToken, calender);
     }
 
     /**

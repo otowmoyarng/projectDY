@@ -10,12 +10,24 @@ function SheetAccessorTest_GetCalender() {
     });
 }
 
-function SheetAccessorTest_GetUpTimeTable() {
-    console.log("GetUpTimeTable:", sheetAccessor.GetUpTimeTable());
+function SheetAccessorTest_GetNozomiUpTimeTable() {
+    console.log("GetNozomiUpTimeTable:", sheetAccessor.GetNozomiUpTimeTable());
 }
 
-function SheetAccessorTest_GetDownTimeTable() {
-    console.log("GetDownTimeTable:", sheetAccessor.GetDownTimeTable());
+function SheetAccessorTest_GetNozomiDownTimeTable() {
+    console.log("GetNozomiDownTimeTable:", sheetAccessor.GetNozomiDownTimeTable());
+}
+
+function SheetAccessorTest_GetKodamaUpTimeTable() {
+    console.log("GetKodamaUpTimeTable:", sheetAccessor.GetKodamaUpTimeTable());
+}
+
+function SheetAccessorTest_GetKodamaDownTimeTable() {
+    console.log("GetKodamaDownTimeTable:", sheetAccessor.GetKodamaDownTimeTable());
+}
+
+function SheetAccessorTest_GetStations() {
+    console.log("GetStations:", sheetAccessor.GetStations());
 }
 
 function SheetAccessorTest_IsDebug() {
