@@ -30,6 +30,12 @@ function SheetAccessorTest_GetStations() {
     console.log("GetStations:", sheetAccessor.GetStations());
 }
 
+function SheetAccessorTest_UpdateStations() {
+    console.log("before:", sheetAccessor.GetStations());
+    sheetAccessor.UpdateStations("東京", "住所", 35.68142180386516, 139.7670050660728);
+    console.log("before:", sheetAccessor.GetStations());
+}
+
 function SheetAccessorTest_IsDebug() {
     const unittest = mode => {
         Sheet.Config.getRange(ConfigKey.Debug).setValue(mode);

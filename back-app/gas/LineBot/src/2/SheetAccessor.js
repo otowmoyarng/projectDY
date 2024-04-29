@@ -55,6 +55,19 @@ class SheetAccessor {
         return stationAll;
     }
 
+    UpdateStations(stationName, address, latitude, longitude) {
+        const stations = this.GetStations();
+        let rownum = 2;
+        stations.forEach(station => {
+            if (stationName == station[0]) {
+                const targetRow = `A${rownum}:D${rownum}`;
+                let updateRow = Sheet.Station.getRange(targetRow);
+                updateRow.setValues([[stationName, address, latitude, longitude]]);
+            }
+            rownum++;
+        });
+    }
+
     IsDebug() {
         const debugMode = Sheet.Config.getRange(ConfigKey.Debug).getValue()
         return debugMode === DebugType.ON;
